@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Orçamentos</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container" id="quote-form">
+        
+        <div class="page-header">
+            <h1 id="main-title">Novo Orçamento</h1>
+            <a href="dashboard.php" class="btn-link">📊 Ver Painel</a>
+        </div>
+
+        <div class="section-card">
+            <h2>Dados do Cliente</h2>
+            <div class="form-group">
+                <label for="cliente_nome">Nome do Cliente</label>
+                <input type="text" id="cliente_nome" class="form-control" placeholder="Nome completo do cliente">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label for="cliente_endereco">Endereço</label>
+                    <input type="text" id="cliente_endereco" class="form-control" placeholder="Rua, Nº, Bairro, Cidade">
+                </div>
+                <div class="form-group">
+                    <label for="cliente_telefone">Telefone / Contato</label>
+                    <input type="tel" id="cliente_telefone" class="form-control" placeholder="(XX) XXXXX-XXXX">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="orcamento_data">Data do Orçamento</label>
+                <input type="date" id="orcamento_data" class="form-control" style="width: 200px;">
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Serviços Principais</h2>
+            
+            <div class="servico-group">
+                <div class="servico-item servico-principal">
+                    <input type="checkbox" id="serv_cameras">
+                    <label for="serv_cameras">Câmeras (Instalação/Manutenção)</label>
+                    <input type="number" id="val_cameras" class="valor-servico valor-principal" placeholder="Valor (R$)">
+                </div>
+                <div class="servico-detalhe" id="detalhe_cameras" style="display: none;">
+                    <textarea id="desc_cameras" rows="2" placeholder="Ex: Instalação de 4 câmeras HD..."></textarea>
+                </div>
+            </div>
+            
+            <div class="servico-group">
+                <div class="servico-item servico-principal">
+                    <input type="checkbox" id="serv_cerca">
+                    <label for="serv_cerca">Cerca Elétrica</label>
+                    <input type="number" id="val_cerca" class="valor-servico valor-principal" placeholder="Valor (R$)">
+                </div>
+                <div class="servico-detalhe" id="detalhe_cerca" style="display: none;">
+                    <textarea id="desc_cerca" rows="2" placeholder="Ex: Instalação de 40m de cerca..."></textarea>
+                </div>
+            </div>
+
+            <div class="servico-group">
+                <div class="servico-item servico-principal">
+                    <input type="checkbox" id="serv_instalacao">
+                    <label for="serv_instalacao">Instalação Elétrica (Nova/Reforma)</label>
+                    <input type="number" id="val_instalacao" class="valor-servico valor-principal" placeholder="Valor (R$)">
+                </div>
+                <div class="servico-detalhe" id="detalhe_instalacao" style="display: none;">
+                    <textarea id="desc_instalacao" rows="2" placeholder="Ex: Substituição da fiação..."></textarea>
+                </div>
+            </div>
+
+            <div class="servico-group">
+                <div class="servico-item servico-principal">
+                    <input type="checkbox" id="serv_manutencao">
+                    <label for="serv_manutencao">Manutenção Elétrica Geral</label>
+                    <input type="number" id="val_manutencao" class="valor-servico valor-principal" placeholder="Valor (R$)">
+                </div>
+                <div class="servico-detalhe" id="detalhe_manutencao" style="display: none;">
+                    <textarea id="desc_manutencao" rows="2" placeholder="Ex: Reparação de curto-circuito..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Materiais e Peças Adicionais</h2>
+            <div class="item-adder">
+                <input type="text" id="item_desc" placeholder="Descrição do item (ex: Disjuntor 20A)">
+                <input type="number" id="item_valor" placeholder="Valor (R$)">
+                <button type="button" class="btn-add">Adicionar</button>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Descrição do Material</th>
+                            <th style="width: 130px;">Valor (R$)</th>
+                            <th class="col-acao">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itens_lista"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Fechamento do Orçamento</h2>
+            <div class="form-group" style="width: 250px;">
+                <label for="outros_valores">Custos Extras (Deslocamento, Taxas)</label>
+                <input type="number" id="outros_valores" class="form-control" placeholder="0.00">
+            </div>
+            <div class="form-group">
+                <label for="observacoes">Observações Gerais</label>
+                <textarea id="observacoes" rows="3" placeholder="Prazos, formas de pagamento, garantia..."></textarea>
+            </div>
+            <div class="total-display">
+                <h2>Total: <span id="total_orcamento">R$ 0,00</span></h2>
+            </div>
+        </div>
+
+        <div class="form-group" style="max-width: 300px;">
+            <label for="status_orcamento">Status Inicial do Orçamento</label>
+            <select id="status_orcamento" class="form-control">
+                <option value="Pendente" selected>Pendente</option>
+                <option value="Aprovado">Aprovado</option>
+                <option value="Recusado">Recusado</option>
+            </select>
+        </div>
+
+        <div class="action-buttons">
+            <button type="button" id="btn-save-db" class="btn-save-db" data-edit-id="">💾 Salvar no Sistema</button>
+            <button type="button" class="btn-print btn-print-half">🖨️ Gerar PDF / Imprimir</button>
+        </div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
